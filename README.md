@@ -1,3 +1,4 @@
+
 # Documentación EMR
 En la siguiente documentación se plantea como montar un cluster EMR desde AWS, con una configuración sencilla para levantar los servicios. Los servicios que serán levantados son:
 
@@ -48,3 +49,17 @@ En la siguiente documentación se plantea como montar un cluster EMR desde AWS, 
 ![enter image description here](https://imgur.com/hSKS51k.png)
 7. Elegir los tipos de nodos, (asegurarse que almenos sean de 16 GB), esta puede ser una configuración valida:
 ![enter image description here](https://imgur.com/JR64c7t.png)
+8. En la sección de "Opciones de seguridad" seleccionar la key `EC2 key pair`.
+9. Dejar el resto igual y darle "Continuar" hasta crear el cluster. 
+10. El cluster tarda alrededor de 20 minutos en crearse. 
+
+### Configuración de Permisos
+
+1. En las configuraciones de Security Groups en EC2, dirigirse al SG creado por EMR para el nodo master y configurar los puertos `9443, 8890, 8888 y 22` para habilitar los accesos.
+2. En EMR dirigirse y editar las excepciones agregando los puertos nombrados en el paso 1. El bloqueo del acceso publico debe dejarse en `On`.
+
+### Revisión de Status
+
+1. Nos dirigimos al servidor de DNS público, y podemos utilizar el puerto `8888` para acceder al entorno de Hue, el puerto `8890` para acceder al entorno Zeppelin y finalmente `9443` para acceder al entorno de JupyterHub.
+2.  Alli podremos subir archivos desde Hue y realizar operaciones.
+3. Si queremos subir un archivo desde SSH podemos acceder al nodo master desde las instrucciones de AWS y  ejecutar el siguiente comando: `hadoop fs -put /home/test/<file> /path/in/hdfs` 
